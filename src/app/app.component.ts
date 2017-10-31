@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http'
-
-import { Item } from './Item/item';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+    <h1>Ecommerce App</h1>
+    <nav>
+      <a routerLink="/ItemList" routerLinkActive="active">ItemList</a>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
 })
-export class AppComponent {
-  constructor(private _httpService: Http) { }
-  items: Item[] = [];
+export class AppComponent implements OnInit {
+  constructor() { }
+ 
   ngOnInit() {
-    this._httpService.get('/api/Tables').subscribe(values => {
-      this.items = values.json() as Item[];
-    });
+    
   }
 }

@@ -4,17 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
-
+import { Cart } from './Item/cart';
+import { CartService } from './Item/cart-service';
+import { ItemService } from './Item/item-service';
+import { AppRoutingModule } from './app-routing.module';
+import { ItemListComponent } from './ItemList/itemlist.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ItemListComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    AppRoutingModule,
   ],
-  providers: [],
+  //?????????????????
+  providers: [CartService, ItemService, Cart],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

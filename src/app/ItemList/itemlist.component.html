@@ -1,0 +1,11 @@
+<ul class="items">
+<li *ngFor="let item of items"
+    [class.selected]="item === selectedItem"
+    (click)="onSelect(toDoList)">
+    <span class="badge">{{item.name}}</span>{{item.price}}
+    <button class="delete"
+          (click)="add(toDoList); $event.stopPropagation()">
+        Add to cart
+    </button>
+  </li>
+</ul>
