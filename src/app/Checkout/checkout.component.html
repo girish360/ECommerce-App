@@ -1,0 +1,11 @@
+
+
+<h2>Total Price: ${{_cartService.cart.totalPrice}}</h2>
+<li *ngFor="let item of _cartService.cart.items">
+  {{item.name}} ${{item.price}}<br />
+</li>
+<h2> </h2>
+<button 
+        (click)="purchase(); $event.stopPropagation()">
+    Purchase
+</button>

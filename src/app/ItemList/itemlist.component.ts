@@ -20,15 +20,15 @@ import { CartService } from '../Item/cart-service';
 export class ItemListComponent implements OnInit {
 
   items: Item[];
-  cartItems: Item[];
   selectedItem: Item;
+  selectedCartItem: Item;
+
   constructor(
     private _cartService: CartService,
     private _itemService: ItemService, private _appComponent: AppComponent, private router: Router) {}
 
   ngOnInit() {
     this._itemService.getItems().then(x => this.items = x);
-    this.cartItems = [];
   }
 
   onSelect(item: Item) {
@@ -37,6 +37,14 @@ export class ItemListComponent implements OnInit {
 
   add(item: Item) {
     this._cartService.addItemToCart(item);
-    this.cartItems = this._cartService.getCartItems();
+  }
+
+  onSelectCart(item: Item) {
+    this.selectedCartItem = item;
+  }
+
+  deleteCart(item: Item) {
+    this.selectedCartItem = null;
+    this._cartService.deleteItemFromCart(item);
   }
 }

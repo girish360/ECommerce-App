@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
     <h1>Ecommerce App</h1>
     <nav>
       <a routerLink="/ItemList" routerLinkActive="active">ItemList</a>
+      <a routerLink="/Checkout" routerLinkActive="active">Checkout</a>
     </nav>
     <router-outlet></router-outlet>
   `,

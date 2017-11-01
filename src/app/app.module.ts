@@ -9,10 +9,13 @@ import { CartService } from './Item/cart-service';
 import { ItemService } from './Item/item-service';
 import { AppRoutingModule } from './app-routing.module';
 import { ItemListComponent } from './ItemList/itemlist.component';
+import { CheckoutComponent } from './Checkout/checkout.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ItemListComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

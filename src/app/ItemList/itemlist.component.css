@@ -2,12 +2,16 @@
   background-color: #CFD8DC !important;
   color: white;
 }
+.selectedCart {
+  background-color: #ff6e6d !important;
+  color: white;
+}
 
 .items {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 25em;
 }
 
   .items li {

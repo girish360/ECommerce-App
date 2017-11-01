@@ -1,11 +1,26 @@
 <ul class="items">
 <li *ngFor="let item of items"
     [class.selected]="item === selectedItem"
-    (click)="onSelect(toDoList)">
-    <span class="badge">{{item.name}}</span>{{item.price}}
+    (click)="onSelect(item)">
+    <span class="badge">{{item.name}}</span>${{item.price}}
     <button class="delete"
-          (click)="add(toDoList); $event.stopPropagation()">
+          (click)="add(item); $event.stopPropagation()">
         Add to cart
     </button>
   </li>
 </ul>
+
+
+<h1>Cart ${{_cartService.cart.totalPrice}}</h1>
+<ul class="items">
+  <li *ngFor="let cartItem of _cartService.cart.items"
+      [class.selectedCart]="cartItem === selectedCartItem"
+      (click)="onSelectCart(cartItem)">
+    <span class="badge">{{cartItem.name}}</span>${{cartItem.price}}
+    <button class="delete"
+            (click)="deleteCart(cartItem); $event.stopPropagation()">
+      Delete from cart
+    </button>
+  </li>
+</ul>
+
