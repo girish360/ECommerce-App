@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Cart } from './cart';
 import { Item } from './item';
-
+import { Headers, Http } from '@angular/http';
 @Injectable() export class CartService {
   
   
 
-  constructor(public cart: Cart ) { }
+  constructor(public cart: Cart, private http: Http ) { }
 
+  verifyPurchase(): Promise<boolean> {
+    var url = `api/Tables`;
+    var headers = new Headers({ 'Content-Type': 'application/json' });
+    console.log(JSON.stringify(this.cart.items));
+    return this.http.put(url, JSON.stringify(this.cart.items), { headers })
+      .toPromise()
+      .then(res => res.json() as boolean);
+  }
   getCartItems(): Item[] {
     return this.cart.items;
   }

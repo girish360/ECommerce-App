@@ -20,9 +20,7 @@ export class CheckoutComponent implements OnInit {
   //make this server side
   //add viscilarity
   purchase() {
-    if (this._cartService.cart.totalPrice < 0) {
-      throw new Error("Negative total Price");
-    }
+    this._cartService.verifyPurchase().then(x => console.log(x));
     this._cartService.clearCart();
   }
 }

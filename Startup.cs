@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +19,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+      services.AddCors();
             //Scaffold - DbContext "Server=(localdb)\mssqllocaldb;Database=ECommerce;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Models
             var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ECommerce;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddDbContext<ECommerceContext>(options => options.UseSqlServer(connection));
@@ -37,7 +38,11 @@ namespace WebApplication1
                     await next();
                 }
             });
-            app.UseMvcWithDefaultRoute();
+      app.UseCors(
+       options => options.WithOrigins("*").AllowAnyMethod()
+   );
+
+      app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }

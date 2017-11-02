@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,8 +27,8 @@ namespace WebApplication1.Controllers
             return _context.Table;
         }
 
-        // GET: api/Tables/5
-        [HttpGet("{id}")]
+    // GET: api/Tables/5
+    [HttpGet("{id}")]
         public async Task<IActionResult> GetTable([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -46,39 +46,16 @@ namespace WebApplication1.Controllers
             return Ok(table);
         }
 
-        // PUT: api/Tables/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTable([FromRoute] int id, [FromBody] Table table)
+        // PUT: api/Tables/
+        [HttpPut]
+        public Boolean verifyPurchase([FromBody] IEnumerable<Table> table)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != table.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(table).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TableExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+      double totalPrice = 0;
+      foreach (Table _table in table)
+      {
+        totalPrice += _table.Price;
+      }
+            return totalPrice > 0;
         }
 
         // POST: api/Tables
@@ -130,7 +107,11 @@ namespace WebApplication1.Controllers
 
             return Ok(table);
         }
-
+    
+        public String getTest()
+        {
+      return "Hello World";
+        }
         private bool TableExists(int id)
         {
             return _context.Table.Any(e => e.Id == id);
