@@ -18,17 +18,27 @@ namespace WebApplication1
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-      services.AddCors();
-            //Scaffold - DbContext "Server=(localdb)\mssqllocaldb;Database=ECommerce;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Models
-            var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ECommerce;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+      services.AddCors(options => options.AddPolicy("CorsDevPolicy", builder =>
+      {
+        builder.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials();
+      }
+      ));
+
+      services.AddMvc();
+      //Scaffold - DbContext "Server=(localdb)\mssqllocaldb;Database=ECommerce;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Models
+      var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ECommerce;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddDbContext<ECommerceContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use(async (context, next) => {
+
+      app.UseCors("CorsDevPolicy");
+      app.Use(async (context, next) => {
                 await next();
                 if (context.Response.StatusCode == 404 &&
                    !Path.HasExtension(context.Request.Path.Value) &&
@@ -38,12 +48,15 @@ namespace WebApplication1
                     await next();
                 }
             });
-      app.UseCors(
-       options => options.WithOrigins("*").AllowAnyMethod()
-   );
-
+      
       app.UseMvcWithDefaultRoute();
-            app.UseDefaultFiles();
+      app.UseMvc(routes =>
+      {
+        routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");
+      });
+      app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }

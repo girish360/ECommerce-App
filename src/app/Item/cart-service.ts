@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Cart } from './cart';
 import { Item } from './item';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
+
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 @Injectable() export class CartService {
-  
+
+  private url = `api/Tables`;
   
 
-  constructor(public cart: Cart, private http: Http ) { }
+  private headers = new Headers();
+  public httpParams = new HttpParams().set('Content-Type', 'application/json');
+  private options;
+
+  constructor(public cart: Cart, private http: Http, private httpClient: HttpClient) {
+    this.headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({ headers: this.headers });
+  }
 
   verifyPurchase(): Promise<boolean> {
-    var url = `api/Tables`;
-    var headers = new Headers({ 'Content-Type': 'application/json' });
-    console.log(JSON.stringify(this.cart.items));
-    return this.http.put(url, JSON.stringify(this.cart.items), { headers })
+    return this.http.put(this.url, JSON.stringify(this.cart.items), this.headers)
       .toPromise()
       .then(res => res.json() as boolean);
   }
@@ -21,6 +28,13 @@ import { Headers, Http } from '@angular/http';
   }
 
   addItemToCart(item: Item) {
+    this.http.post(this.url, JSON.stringify({ id: 3337, name: "fuckthisshit117", price: 1111, description: "PenileErection" }), this.options).subscribe();
+    this.cart.items.push(item);
+    this.updateTotalPrice();
+  }
+
+  addItemToCartNew(item: Item) {
+    this.httpClient.post(this.url, JSON.stringify({ id: 3335, name: "fuckthisshit113", price: 10, description: "Penile" }), { headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe();
     this.cart.items.push(item);
     this.updateTotalPrice();
   }

@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace WebApplication1.Controllers
 {
-    [Produces("application/json")]
+  [EnableCors("CorsDevPolicy")]
+  [Produces("application/json")]
     [Route("api/Tables")]
     public class TablesController : Controller
     {
@@ -58,23 +60,21 @@ namespace WebApplication1.Controllers
             return totalPrice > 0;
         }
 
-        // POST: api/Tables
-        [HttpPost]
-        public async Task<IActionResult> PostTable([FromBody] Table table)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+    // POST: api/Tables
 
-            _context.Table.Add(table);
+    [EnableCors("CorsDevPolicy")]
+    [HttpPost]
+        public async Task<IActionResult> PostTable([FromBody]Table table1)
+        {
+            
+            _context.Table.Add(table1);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (TableExists(table.Id))
+                if (TableExists(table1.Id))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -84,7 +84,7 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTable", new { id = table.Id }, table);
+            return CreatedAtAction("GetTable", new { id = table1.Id }, table1);
         }
 
         // DELETE: api/Tables/5
