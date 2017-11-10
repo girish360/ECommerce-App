@@ -19,6 +19,9 @@ export class CheckoutComponent implements OnInit {
 
   //make this server side
   //add viscilarity
+  //need table to store user
+  //store user purchase history/user currernt cart
+  
   purchase() {
     this._cartService.verifyPurchase().then(x => console.log(x));
     this._cartService.clearCart();
