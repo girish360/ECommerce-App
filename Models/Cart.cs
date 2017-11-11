@@ -7,6 +7,9 @@ namespace WebApplication1.Models
 {
     public class Cart
     {
-        public int ItemId { get; set; } 
+
+    public String Name { get; set; }
+    public int ItemId { get; set; }
+    
     }
 }
