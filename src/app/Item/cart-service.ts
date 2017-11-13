@@ -19,10 +19,16 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   }
 
   verifyPurchase(): Promise<boolean> {
-    return this.http.put(this.cartUrl, this.options)
+    return this.http.put(this.cartUrl, this.headers)
       .toPromise()
-      .then(res => res.json() as boolean);
+      .then(res => res.json() as boolean).catch(this.handleError);
   }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
+
   getCartItems(): Item[] {
     return this.cart.items;
   }

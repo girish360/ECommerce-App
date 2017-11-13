@@ -51,27 +51,44 @@ namespace WebApplication1.Controllers
     // PUT: api/Carts/
     [EnableCors("CorsDevPolicy")]
     [HttpPut]
-        public Boolean verifyPurchase()
+        public async Task<Boolean> verifyPurchase()
         {
-      double totalPrice = 0;
-            foreach(Cart cartItem in _context.Cart_1 )
-      {
-        int cId = cartItem.ItemId;
-        Table listItem =  _context.Table.FirstOrDefault(e => e.Id == cId);
-        if (listItem != null)
-        {
-          if(listItem.Id <= 0)
-          {
 
-            totalPrice += listItem.Price;
-          }
-        } else
+      double totalPrice = 0;
+      List<Cart> carts = _context.Cart_1.ToList();
+      List<Table> tables = _context.Table.ToList();
+      foreach(Table _table in tables)
+      {
+        System.Console.WriteLine(_table.Name);
+        System.Console.WriteLine(_table.Id);
+      }
+      foreach (Cart _table in carts)
+      {
+
+        System.Console.WriteLine(_table.ItemId);
+      }
+      foreach (Cart cartItem in carts )
+      {
+        foreach (Table _table in tables)
         {
-          return false;
+          if (_table.Id == cartItem.ItemId)
+          {
+            if (_table.Price > 0)
+            {
+
+              totalPrice += _table.Price;
+            }
+            else
+            {
+              return false;
+            }
+          }
         }
       }
-            return totalPrice > 0;
-        }
+      System.Console.WriteLine(totalPrice > 0);
+      return totalPrice > 0;
+
+    }
 
         // POST: api/Carts
         [HttpPost]
