@@ -48,6 +48,7 @@ namespace WebApplication1.Controllers
             return Ok(table);
         }
 
+    /*Moved to CartsController
         // PUT: api/Tables/
         [HttpPut]
         public Boolean verifyPurchase([FromBody] IEnumerable<Table> table)
@@ -59,6 +60,7 @@ namespace WebApplication1.Controllers
       }
             return totalPrice > 0;
         }
+        */
 
     // POST: api/Tables
 

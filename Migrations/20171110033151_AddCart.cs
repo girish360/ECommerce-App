@@ -14,7 +14,7 @@ namespace WebApplication1.Migrations
                 {
                   
                   Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                  Id = table.Column<int>(type: "int", nullable: false),
+                  ItemId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

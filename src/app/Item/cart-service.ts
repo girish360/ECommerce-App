@@ -7,7 +7,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 @Injectable() export class CartService {
 
   private url = `api/Tables`;
-  
+  private cartUrl = `api/Carts`
 
   private headers = new Headers();
   public httpParams = new HttpParams().set('Content-Type', 'application/json');
@@ -19,7 +19,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   }
 
   verifyPurchase(): Promise<boolean> {
-    return this.http.put(this.url, JSON.stringify(this.cart.items), this.headers)
+    return this.http.put(this.cartUrl, this.options)
       .toPromise()
       .then(res => res.json() as boolean);
   }
@@ -28,28 +28,35 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   }
 
   addItemToCart(item: Item) {
-    this.http.post(this.url, JSON.stringify({ id: 3337, name: "fuckthisshit117", price: 1111, description: "PenileErection" }), this.options).subscribe();
+    this.http.post(this.cartUrl, JSON.stringify({ name: item.name, itemId: item.id }), this.options).subscribe();
     this.cart.items.push(item);
     this.updateTotalPrice();
   }
 
+  /*
   addItemToCartNew(item: Item) {
     this.httpClient.post(this.url, JSON.stringify({ id: 3335, name: "fuckthisshit113", price: 10, description: "Penile" }), { headers: new HttpHeaders().set('Content-Type', 'application/json')}).subscribe();
     this.cart.items.push(item);
     this.updateTotalPrice();
   }
+  */
 
   clearCart() {
+    for (let cartItem of this.cart.items) {
+      const deleteUrl = `${this.cartUrl}/${cartItem.name}`;
+      this.http.delete(deleteUrl, this.headers).subscribe();
+    }
     this.cart.items = new Array<Item>();
     this.updateTotalPrice();
   }
 
   deleteItemFromCart(item: Item) {
+    const deleteUrl = `${this.cartUrl}/${item.name}`;
+    this.http.delete(deleteUrl, this.headers).subscribe();
     var index = this.cart.items.indexOf(item, 0);
     if (index > -1) {
       this.cart.items.splice(index, 1);
     }
-
     this.updateTotalPrice();
   }
 
