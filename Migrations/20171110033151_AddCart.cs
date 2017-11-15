@@ -12,7 +12,6 @@ namespace WebApplication1.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                  
                   Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
                   ItemId = table.Column<int>(type: "int", nullable: false),
                 },

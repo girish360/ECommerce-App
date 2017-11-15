@@ -51,8 +51,8 @@ namespace WebApplication1.Controllers
     // PUT: api/Carts/
     [EnableCors("CorsDevPolicy")]
     [HttpPut]
-        public async Task<Boolean> verifyPurchase()
-        {
+      public Boolean verifyPurchase()
+      {
 
       double totalPrice = 0;
       List<Cart> carts = _context.Cart_1.ToList();

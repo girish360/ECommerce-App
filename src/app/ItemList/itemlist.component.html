@@ -16,6 +16,7 @@
   <li *ngFor="let cartItem of _cartService.cart.items"
       [class.selectedCart]="cartItem === selectedCartItem"
       (click)="onSelectCart(cartItem)">
+    <!---Fix this line when I get the time-->
     <span class="badge">{{cartItem.name}}</span>${{cartItem.price}}
     <button class="delete"
             (click)="deleteCart(cartItem); $event.stopPropagation()">

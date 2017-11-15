@@ -16,6 +16,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   constructor(public cart: Cart, private http: Http, private httpClient: HttpClient) {
     this.headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({ headers: this.headers });
+    this.getAllItems().then(x => this.cart.items = x);
   }
 
   verifyPurchase(): Promise<boolean> {
@@ -33,6 +34,13 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
     return this.cart.items;
   }
 
+  getAllItems(): Promise<Item[]> {
+    return this.http.get(this.cartUrl)
+      .toPromise()
+      .then(x => x.json() as Item[])
+      .catch(this.handleError);
+  }
+
   addItemToCart(item: Item) {
     this.http.post(this.cartUrl, JSON.stringify({ name: item.name, itemId: item.id }), this.options).subscribe();
     this.cart.items.push(item);
@@ -47,6 +55,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   }
   */
 
+  
   clearCart() {
     for (let cartItem of this.cart.items) {
       const deleteUrl = `${this.cartUrl}/${cartItem.name}`;

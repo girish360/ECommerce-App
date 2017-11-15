@@ -22,7 +22,7 @@ export class ItemListComponent implements OnInit {
   items: Item[];
   selectedItem: Item;
   selectedCartItem: Item;
-
+  //add a method to get the price
   constructor(
     private _cartService: CartService,
     private _itemService: ItemService, private _appComponent: AppComponent, private router: Router) {}

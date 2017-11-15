@@ -23,8 +23,14 @@ export class CheckoutComponent implements OnInit {
   //store user purchase history/user currernt cart
   
   purchase() {
-    this._cartService.verifyPurchase().then(x => function() {
-      console.log(x);
-    });
+    var propurchaseVerifiedy = false;
+    this._cartService.verifyPurchase().then(purchaseVerified => this.purchaseVerified(purchaseVerified));
+  }
+
+  purchaseVerified(purchaseVerified: boolean) {
+    console.log(purchaseVerified);
+    if (purchaseVerified) {
+      this._cartService.clearCart();
+    }
   }
 }
