@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import { Item } from './item'
+import { CartItem } from './cart-item'
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map'
 
@@ -10,8 +11,14 @@ import 'rxjs/add/operator/map'
 export class ItemService {
   private url = `api/Tables`;
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  constructor(private http: Http) { }
+  private items: Item[];
+  constructor(private http: Http) {
+    this.getItems().then(x => this.items = x);
+  }
 
+  getItemList(): Item[] {
+    return this.items;
+  }
 
   getItems(): Promise<Item []> {
     return this.http.get(this.url)
@@ -24,7 +31,7 @@ export class ItemService {
     const url = `${this.url}/${id}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json() as Item )
+      .then(response => response.json() as CartItem )
       .catch(this.handleError);
   }
 

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Cart } from './cart';
 import { Item } from './item';
+
+import { CartItem } from './cart-item'
 import { Headers, Http, RequestOptions } from '@angular/http';
+import { ItemService } from './item-service';
 
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 @Injectable() export class CartService {
@@ -13,10 +16,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   public httpParams = new HttpParams().set('Content-Type', 'application/json');
   private options;
 
-  constructor(public cart: Cart, private http: Http, private httpClient: HttpClient) {
+  constructor(public cart: Cart, private http: Http, private httpClient: HttpClient, private _itemService: ItemService){
     this.headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({ headers: this.headers });
-    this.getAllItems().then(x => this.cart.items = x);
+    this.getAllItems().then(x => this.cart.cartItems = x);
   }
 
   verifyPurchase(): Promise<boolean> {
@@ -34,10 +37,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
     return this.cart.items;
   }
 
-  getAllItems(): Promise<Item[]> {
+  getAllItems(): Promise<CartItem[]> {
     return this.http.get(this.cartUrl)
       .toPromise()
-      .then(x => x.json() as Item[])
+      .then(x => x.json() as CartItem[])
       .catch(this.handleError);
   }
 

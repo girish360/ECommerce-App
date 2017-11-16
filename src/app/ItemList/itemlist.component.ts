@@ -23,9 +23,12 @@ export class ItemListComponent implements OnInit {
   selectedItem: Item;
   selectedCartItem: Item;
   //add a method to get the price
+  cartItems: Item[];
   constructor(
     private _cartService: CartService,
-    private _itemService: ItemService, private _appComponent: AppComponent, private router: Router) {}
+    private _itemService: ItemService, private _appComponent: AppComponent, private router: Router) {
+    this.matchCartItems();
+  }
 
   ngOnInit() {
     this._itemService.getItems().then(x => this.items = x);
@@ -46,5 +49,18 @@ export class ItemListComponent implements OnInit {
   deleteCart(item: Item) {
     this.selectedCartItem = null;
     this._cartService.deleteItemFromCart(item);
+  }
+
+  //deprecated
+  matchCartItems() {
+    for (let cartItem of this._cartService.cart.cartItems) {
+      console.log(cartItem);
+      for (let item of this._itemService.getItemList()) {
+        if (cartItem.itemId == item.id) {
+          this.cartItems.push(item);
+          this._cartService.cart.items.push(item);
+        }
+      }
+    }
   }
 }

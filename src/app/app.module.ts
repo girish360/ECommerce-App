@@ -26,7 +26,7 @@ import { CheckoutComponent } from './Checkout/checkout.component';
     HttpClientModule,
   ],
   //?????????????????
-  providers: [CartService, ItemService, Cart],
+  providers: [ItemService, CartService, Cart],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
